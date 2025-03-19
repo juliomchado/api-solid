@@ -2,15 +2,15 @@ import { describe, expect, it } from "vitest";
 import { RegisterUseCase } from "./register-use-case";
 import { PrismaUserRepository } from "@/repositories/prisma/prisma-users-repository";
 import { compare } from "bcryptjs";
-import { InMemoryRepository } from "@/repositories/in-memory/in-memory-users-repository";
+import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository";
 import { UserAlreadyExistsError } from "./errors/user-already-exists-error";
 
 describe("Register Use Case", () => {
   it("should hash user password upon registration", async () => {
-    const inMemoryRepository = new InMemoryRepository();
-    const registerUseCase = new RegisterUseCase(inMemoryRepository);
+    const usersRepository = new InMemoryUsersRepository();
+    const sut = new RegisterUseCase(usersRepository);
 
-    const { user } = await registerUseCase.execute({
+    const { user } = await sut.execute({
       name: "John doe",
       email: "johndoee12345@example.com",
       password: "123456",
@@ -25,10 +25,10 @@ describe("Register Use Case", () => {
   });
 
   it("should be able to user register", async () => {
-    const inMemoryRepository = new InMemoryRepository();
-    const registerUseCase = new RegisterUseCase(inMemoryRepository);
+    const usersRepository = new InMemoryUsersRepository();
+    const sut = new RegisterUseCase(usersRepository);
 
-    const { user } = await registerUseCase.execute({
+    const { user } = await sut.execute({
       name: "John doe",
       email: "johndoee12345@example.com",
       password: "123456",
@@ -38,18 +38,18 @@ describe("Register Use Case", () => {
   });
 
   it("should to not be able to register users with same email", async () => {
-    const inMemoryRepository = new InMemoryRepository();
-    const registerUseCase = new RegisterUseCase(inMemoryRepository);
+    const usersRepository = new InMemoryUsersRepository();
+    const sut = new RegisterUseCase(usersRepository);
     const email = "johndoee12345@example.com";
 
-    await registerUseCase.execute({
+    await sut.execute({
       name: "John doe",
       email,
       password: "123456",
     });
 
-    expect(async () => {
-      await registerUseCase.execute({
+    await expect(() => {
+      return sut.execute({
         name: "John doe",
         email,
         password: "123456",
