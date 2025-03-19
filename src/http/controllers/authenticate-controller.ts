@@ -1,7 +1,8 @@
 import { PrismaUserRepository } from "@/repositories/prisma/prisma-users-repository";
-import { AuthenticateUseCase } from "@/use-cases/authenticate";
+import { AuthenticateUseCase } from "@/use-cases/authenticate-use-case";
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists-error";
+import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -17,8 +18,7 @@ export async function authenticateController(
   const { email, password } = authenticateBodySchema.parse(request.body);
 
   try {
-    const prismaUsersRepository = new PrismaUserRepository();
-    const authenticateUserCase = new AuthenticateUseCase(prismaUsersRepository);
+    const authenticateUserCase = makeAuthenticateUseCase();
 
     await authenticateUserCase.execute({ email, password });
   } catch (error) {
