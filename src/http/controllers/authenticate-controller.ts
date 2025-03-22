@@ -1,5 +1,5 @@
-import { PrismaUserRepository } from "@/repositories/prisma/prisma-users-repository";
-import { AuthenticateUseCase } from "@/use-cases/authenticate-use-case";
+import { PrismaUserRepository } from "@/repositories/prisma/prisma-users";
+import { AuthenticateUseCase } from "@/use-cases/authenticate";
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists-error";
 import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";

@@ -1,5 +1,5 @@
-import { GymsRepository } from "./../repositories/gyms-repository";
-import { UsersRepository } from "@/repositories/users-respository";
+import { GymsRepository } from "../repositories/gyms-repository";
+import { UsersRepository } from "@/repositories/users";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 import { compare, compareSync, hash } from "bcryptjs";
 import { CheckIn, User } from "@prisma/client";
