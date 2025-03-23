@@ -1,9 +1,9 @@
 import { PrismaGymsRepository } from "@/repositories/prisma/prisma-gyms-repository";
-import { SearchGymUseCase } from "../search-gyms";
+import { FetchNearByGymsUseCase } from "../fetch-nearby-gyms";
 
 export function makeFetchNearByGymsUseCase() {
   const gymsRepository = new PrismaGymsRepository();
-  const useCase = new SearchGymUseCase(gymsRepository);
+  const useCase = new FetchNearByGymsUseCase(gymsRepository);
 
   return useCase;
 }
